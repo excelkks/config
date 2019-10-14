@@ -41,7 +41,7 @@ set list
 set listchars=tab:>-,trail:-,nbsp:+
 set viewoptions=cursor,folds,slash,unix
 set wrap
-set foldenable
+set nofoldenable
 set foldmethod=indent    "zo,zO,zc,zC,za,zA,[z,]z,zj,zk
 set splitright
 set splitbelow
@@ -49,6 +49,7 @@ set showcmd
 set wildmenu
 set ignorecase
 set smartcase
+set hlsearch
 set visualbell
 " set paste
 set laststatus=2
@@ -57,15 +58,70 @@ set ruler
 set colorcolumn=80
 set updatetime=1000
 
+" Cursor shape
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
+silent !mkdir -p ~/.config/nvim/tmp/backup
+silent !mkdir -p ~/.config/nvim/tmp/undo
+set backupdir=~/.config/nvim/tmp/backup,.
+set directory=~/.config/nvim/tmp/backup,.
 if has('persistent_undo')
     set undofile
     set undodir=~/.config/nvim/tmp/undo,.
 endif
 
+" 回到上次编辑的位置
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
+map <F5> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+    exec "w"
+    if &filetype == 'c'
+        exec "!g++ % -o %<"
+        exec "!time ./%<"
+    elseif &filetype == 'cpp'
+        " set splitbelow
+        exec "!g++ -std=c++11 % -Wall -o %<"
+        exec "!time ./%<"
+        " :sp
+        " :res -15
+        " :term ./%<
+    elseif &filetype == 'java'
+        exec "!javac %"
+        exec "!time java %<"
+    elseif &filetype == 'sh'
+        :!time bash %
+    elseif &filetype == 'python'
+        exec "!time python3 %"
+        " set splitbelow
+        " :sp
+        " :term python3 %
+    elseif &filetype == 'html'
+        silent! exec "!chromium % &"
+    elseif &filetype == 'markdown'
+        exec "MarkdownPreview"
+    elseif &filetype == 'tex'
+        silent! exec "VimtexStop"
+        silent! exec "VimtexComplie"
+    elseif &filetype == 'go'
+        exec "!go buuld %<"
+        exec "!time go run %"
+        " set splitbelow
+        " :sp
+        " :term go run %
+    endif
+endfunc
+
 
 
 call plug#begin('~/.vim/plugged')
+" python
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'tweekmonster/braceless.vim'
+Plug 'jaxbot/semantic-highlight.vim'
 
 call plug#end()
 
