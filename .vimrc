@@ -1,10 +1,18 @@
+" nvim to vim
+" :%s/.config\/nvim/.vim/g
+" vim to nvim
+" :%s/.vim/.config\/nvim/g
 " ===
 " === Auto load Plug
 " ===
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+if empty(glob('~/.vim/colors/solarized.vim'))
+    silent !curl -fLo ~/.vim/colors/solarized.vim --create-dirs
+                \ https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 endif
 
 " ===
@@ -23,8 +31,8 @@ set nu
 set relativenumber
 filetype plugin indent on
 syntax on
-colorscheme desert
-
+" colorscheme desert
+colorscheme solarized
 "突出当前行
 set cursorline
 "突出当前列
@@ -40,7 +48,7 @@ set cindent
 set list
 set listchars=tab:>-,trail:-,nbsp:+
 set viewoptions=cursor,folds,slash,unix
-set wrap
+set nowrap
 set nofoldenable
 set foldmethod=indent    "zo,zO,zc,zC,za,zA,[z,]z,zj,zk
 set splitright
@@ -49,13 +57,13 @@ set showcmd
 set wildmenu
 set ignorecase
 set smartcase
-set hlsearch
+set hlsearch    "临时取消高亮 :noh
 set visualbell
 " set paste
 set laststatus=2
 set ruler
 
-set colorcolumn=80
+" set colorcolumn=80
 set updatetime=1000
 
 " Cursor shape
@@ -63,13 +71,13 @@ let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-silent !mkdir -p ~/.config/nvim/tmp/backup
-silent !mkdir -p ~/.config/nvim/tmp/undo
-set backupdir=~/.config/nvim/tmp/backup,.
-set directory=~/.config/nvim/tmp/backup,.
+silent !mkdir -p ~/.vim/tmp/backup
+silent !mkdir -p ~/.vim/tmp/undo
+set backupdir=~/.vim/tmp/backup,.
+set directory=~/.vim/tmp/backup,.
 if has('persistent_undo')
     set undofile
-    set undodir=~/.config/nvim/tmp/undo,.
+    set undodir=~/.vim/tmp/undo,.
 endif
 
 " 回到上次编辑的位置
@@ -116,12 +124,30 @@ func! CompileRunGcc()
 endfunc
 
 
-
 call plug#begin('~/.vim/plugged')
 " python
+" Semshi provides semantic highlighting for Python in Neovim
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tweekmonster/braceless.vim'
-Plug 'jaxbot/semantic-highlight.vim'
+" Plug 'jaxbot/semantic-highlight.vim'
+Plug 'jiangmiao/auto-pairs'
+
+" File navi
+Plug 'scrooloose/nerdtree'
+
+" bar
+Plug 'liuchengxu/eleline.vim'
+
+" autocomplete
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+
+
+map <C-n> :NERDTreeToggle<CR>
+map <C-j> 5j
+map <C-k> 5k
+imap ff <Esc>
+map  ff <Esc>
 
