@@ -15,17 +15,35 @@ Get_Dist_Name()
 
 Get_Dist_Name
 # install package
-for pkg in "git" "node"; do
-    if  ! type $pkg 2>/dev/null; then
-        echo -e "\033[34m installing $pkg ....................... \033[0m"
-        $PM install $pkg
-    fi
-done
+if [ $SYSTEM = "macosx" ]; then
+    for pkg in "git" "node"; do
+        if  ! type $pkg 2>/dev/null; then
+            echo -e "\033[34m installing $pkg ....................... \033[0m"
+            $PM install $pkg
+        fi
+    done
+else
+    for pkg in "git" "nodejs" "npm"; do
+        if  ! type $pkg 2>/dev/null; then
+            echo -e "\033[34m installing $pkg ....................... \033[0m"
+            sudo $PM install $pkg
+        fi
+    done
+fi
+
 # install hexo
 if ! type hexo 2>/dev/null; then
     echo -e "\033[34m installing hexo....................... \033[0m"
-    echo 
     npm install -g hexo
 fi
 
-echo -e "\033[34m environment successful insalled. \033[0m"
+succ_flag=1
+for pkg in "git" "node" "npm" "hexo"; do
+    if !type $pkg 2>/dev/null; then
+        echo -e "\033[31m $pkg not been installed, please check it. \033[0m"
+        succ_flag=0
+    fi
+done
+if [ $succ_flag=1 ]; then
+    echo -e "\033[34m envirnment insalled successfully. \033[0m"
+fi
