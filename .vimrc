@@ -138,6 +138,10 @@ Plug 'scrooloose/nerdtree'
 " bar
 Plug 'liuchengxu/eleline.vim'
 
+" snippet
+Plug 'SirVer/ultisnips'
+Plug 'excelkks/vim-snippets'
+
 " autocomplete
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
