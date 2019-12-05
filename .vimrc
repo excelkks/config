@@ -152,6 +152,9 @@ call plug#end()
 map <C-n> :NERDTreeToggle<CR>
 map <C-j> 5j
 map <C-k> 5k
-imap ff <Esc>
-map  ff <Esc>
+map <C-h> 10h
+map <C-l> 10l
+
+map ff <Esc>
+map!  ff <Esc>
 
