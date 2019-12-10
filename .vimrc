@@ -18,6 +18,12 @@ endif
 " ===
 " === System setting
 " ===
+"
+set nocompatible
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
 
 " 使配色兼容终端
 let &t_ut=''
@@ -29,10 +35,10 @@ set termencoding=utf-8
 set encoding=utf-8
 set nu
 set relativenumber
-filetype plugin indent on
 syntax on
 " colorscheme desert
 colorscheme solarized
+" color snazzy
 "突出当前行
 set cursorline
 "突出当前列
@@ -46,7 +52,7 @@ set autoindent
 set cindent
 " 显示空格、行尾、制表符等
 set list
-set listchars=tab:>-,trail:-,nbsp:+
+set listchars=tab:▸-,trail:-,nbsp:+
 set viewoptions=cursor,folds,slash,unix
 set nowrap
 set nofoldenable
@@ -142,21 +148,47 @@ Plug 'liuchengxu/eleline.vim'
 " snippet
 Plug 'SirVer/ultisnips'
 Plug 'excelkks/vim-snippets'
+" Plug 'connorholyday/vim-snazzy'
 
 " autocomplete
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
-map <C-n> :NERDTreeToggle<CR>
-map <C-j> 5j
-map <C-k> 5k
-map <C-h> 10h
-map <C-l> 10l
+noremap <C-n> :NERDTreeToggle<CR>
+noremap <C-j> 5j
+noremap <C-k> 5k
+noremap <C-h> 10h
+noremap <C-l> 10l
 
-map ff <Esc>
-map!  ff <Esc>
+noremap ff <Esc>
+noremap!  ff <Esc>
 
 " placeholder
-imap ph <++>
-map <space><space> <Esc>/<++><CR>:noh<CR>c4l
+inoremap ph <++>
+noremap <space><space> <Esc>/<++><CR>:noh<CR>c4l
+
+" split
+noremap sl :vsp<space>
+noremap sh :set nosplitright<CR>:vsp<space>
+noremap sj :split<space>
+noremap sk :set nosplitbelow<CR>:split<space>
+" change windows
+noremap <space>k <C-w>k
+noremap <space>j <C-w>j
+noremap <space>h <C-w>h
+noremap <space>l <C-w>l
+
+noremap sv <C-w>t<C-w>H
+noremap sh <C-w>t<C-w>K
+
+" resize
+noremap <up> :res +5<CR>
+noremap <down> :res -5<CR>
+noremap <left> :vertical resize-5<CR>
+noremap <right> :vertical resize+5<CR>
+" tab
+noremap tn :tabe<space>
+noremap th :-tabnext<CR>
+noremap tl :+tabnext<CR>
+
