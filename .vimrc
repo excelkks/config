@@ -65,6 +65,7 @@ set ruler
 
 " set colorcolumn=80
 set updatetime=1000
+set scrolloff=5
 
 " Cursor shape
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -147,8 +148,6 @@ Plug 'excelkks/vim-snippets'
 
 call plug#end()
 
-
-
 map <C-n> :NERDTreeToggle<CR>
 map <C-j> 5j
 map <C-k> 5k
@@ -158,3 +157,6 @@ map <C-l> 10l
 map ff <Esc>
 map!  ff <Esc>
 
+" placeholder
+imap ph <++>
+map <space><space> <Esc>/<++><CR>:noh<CR>c4l
