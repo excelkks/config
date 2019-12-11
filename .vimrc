@@ -156,13 +156,18 @@ Plug 'excelkks/vim-snippets'
 call plug#end()
 
 noremap <C-n> :NERDTreeToggle<CR>
-noremap <C-j> 5j
-noremap <C-k> 5k
-noremap <C-h> 10h
-noremap <C-l> 10l
 
 noremap ff <Esc>
 noremap!  ff <Esc>
+
+noremap H 10h
+noremap J 5j
+noremap K 5k
+noremap L 10l
+
+noremap <C-j> <C-e>j
+noremap <C-k> <C-y>k
+
 
 " placeholder
 inoremap ph <++>
@@ -189,6 +194,6 @@ noremap <left> :vertical resize-5<CR>
 noremap <right> :vertical resize+5<CR>
 " tab
 noremap tn :tabe<space>
-noremap th :-tabnext<CR>
-noremap tl :+tabnext<CR>
+noremap <C-h> :tabp<CR>
+noremap <C-l> :tabn<CR>
 
