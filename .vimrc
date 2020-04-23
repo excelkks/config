@@ -10,10 +10,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-if empty(glob('~/.vim/colors/solarized.vim'))
-    silent !curl -fLo ~/.vim/colors/solarized.vim --create-dirs
-                \ https://raw.githubusercontent.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-endif
 
 " ===
 " === System setting
@@ -194,6 +190,7 @@ noremap <up> :res +5<CR>
 noremap <down> :res -5<CR>
 noremap <left> :vertical resize-5<CR>
 noremap <right> :vertical resize+5<CR>
+
 " tab
 noremap tn :tabe<space>
 noremap <C-h> :tabp<CR>
@@ -203,3 +200,6 @@ noremap glf :set splitright<CR>:vertical wincmd f<CR>
 noremap ghf :set nosplitright<CR>:vertical wincmd f<CR>
 noremap gjf :set splitbelow<CR>:wincmd f<CR>
 noremap gkf :set nosplitbelow<CR>:wincmd f<CR>
+
+" terminal
+noremap term :set splitright<CR>:vertical term<CR>
