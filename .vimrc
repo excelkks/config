@@ -27,7 +27,9 @@ filetype plugin indent on
 
 " 使配色兼容终端
 let &t_ut=''
-set autochdir
+" set autochdir not working
+" set autochdir
+" autocmd VimEnter * set autochdir
 
 "设置编码
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
@@ -36,8 +38,8 @@ set encoding=utf-8
 set nu
 set relativenumber
 syntax on
-" colorscheme desert
-colorscheme solarized
+colorscheme desert
+" colorscheme solarized
 " color snazzy
 "突出当前行
 set cursorline
@@ -64,7 +66,7 @@ set wildmenu
 set ignorecase
 set smartcase
 set hlsearch    "临时取消高亮 :noh
-set visualbell
+" set visualbell
 " set paste
 set laststatus=2
 set ruler
@@ -134,7 +136,7 @@ endfunc
 call plug#begin('~/.vim/plugged')
 " python
 " Semshi provides semantic highlighting for Python in Neovim
-Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+" Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 Plug 'tweekmonster/braceless.vim'
 " Plug 'jaxbot/semantic-highlight.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -174,9 +176,9 @@ inoremap ph <++>
 noremap <space><space> <Esc>/<++><CR>:noh<CR>c4l
 
 " split
-noremap sl :vsp<space>
+noremap sl :set splitright<CR>:vsp<space>
 noremap sh :set nosplitright<CR>:vsp<space>
-noremap sj :split<space>
+noremap sj :set splitbelow<CR>:split<space>
 noremap sk :set nosplitbelow<CR>:split<space>
 " change windows
 noremap <space>k <C-w>k
@@ -184,8 +186,8 @@ noremap <space>j <C-w>j
 noremap <space>h <C-w>h
 noremap <space>l <C-w>l
 
-noremap sv <C-w>t<C-w>H
-noremap sh <C-w>t<C-w>K
+" noremap sv <C-w>t<C-w>H
+" noremap sh <C-w>t<C-w>K
 
 " resize
 noremap <up> :res +5<CR>
@@ -197,3 +199,7 @@ noremap tn :tabe<space>
 noremap <C-h> :tabp<CR>
 noremap <C-l> :tabn<CR>
 
+noremap glf :set splitright<CR>:vertical wincmd f<CR>
+noremap ghf :set nosplitright<CR>:vertical wincmd f<CR>
+noremap gjf :set splitbelow<CR>:wincmd f<CR>
+noremap gkf :set nosplitbelow<CR>:wincmd f<CR>
