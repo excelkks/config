@@ -34,7 +34,7 @@ set encoding=utf-8
 set nu
 set relativenumber
 syntax on
-colorscheme desert
+" colorscheme desert
 " colorscheme solarized
 " color snazzy
 "突出当前行
@@ -72,9 +72,10 @@ set updatetime=1000
 set scrolloff=5
 
 " Cursor shape
-let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+let &t_SI = "\<Esc>]50;CursorShape=0\x7"    "INSERT mode
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"    "REPALCE mode
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"    "NORMAL mode
+
 
 silent !mkdir -p ~/.vim/tmp/backup
 silent !mkdir -p ~/.vim/tmp/undo
@@ -146,6 +147,9 @@ Plug 'liuchengxu/eleline.vim'
 " snippet
 Plug 'SirVer/ultisnips'
 Plug 'excelkks/vim-snippets'
+Plug 'ycm-core/YouCompleteMe'
+
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 " Plug 'connorholyday/vim-snazzy'
 
 " autocomplete
