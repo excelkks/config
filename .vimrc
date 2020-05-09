@@ -195,10 +195,10 @@ noremap <down> :res -5<CR>
 noremap <left> :vertical resize-5<CR>
 noremap <right> :vertical resize+5<CR>
 
-" tab
-noremap tn :tabe<space>
-noremap <C-h> :tabp<CR>
-noremap <C-l> :tabn<CR>
+" " tab
+" noremap tn :tabe<space>
+" noremap <C-h> :tabp<CR>
+" noremap <C-l> :tabn<CR>
 
 noremap glf :set splitright<CR>:vertical wincmd f<CR>
 noremap ghf :set nosplitright<CR>:vertical wincmd f<CR>
