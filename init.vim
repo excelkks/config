@@ -62,7 +62,7 @@ set laststatus=2    " enable statu bar
 set ruler
 
 " set colorcolumn=80
-set updatetime=1000
+set updatetime=300
 
 " Cursor shape
 let &t_SI = "\<Esc>]50;CursorShape=0\x7"
@@ -123,6 +123,8 @@ endfunc
 
 
 
+
+
 call plug#begin('~/.vim/plugged')
 " python
 " Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
@@ -135,10 +137,63 @@ Plug 'scrooloose/nerdtree'
 Plug 'liuchengxu/eleline.vim'
 
 " snippet
-Plug 'SirVer/ultisnips'
-Plug 'excelkks/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'excelkks/vim-snippets'
+
+" auto complete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+""""""""""""""
+"  coc.vim   "
+""""""""""""""
+set hidden
+" Give more space for displaying messages.
+set cmdheight=2
+set shortmess+=c
+if has("patch-8.1.1564")
+    set signcolumn=number
+else
+    set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+
+" Use <CR> to confirm completion, `<C-g>u` means break undo chain at current
+" positon. Coc only does snippt and additional edit on confirm.
+if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+let g:coc_global_extensions = ['coc-html', 'coc-clangd', 'coc-python', 'coc-json', 'coc-highlight']
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostics-prev)
+nmap <silent> ]g <Plug>(coc-diagnostics-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap rn <Plug>(coc-rename)
 
 
 
