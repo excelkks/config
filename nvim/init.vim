@@ -31,8 +31,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
-set list
-set listchars=tab:\|\ ,trail:▫
+" set list
+" set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set ttimeoutlen=0
 set notimeout
@@ -57,6 +57,7 @@ set completeopt=longest,noinsert,menuone,noselect,preview
 set ttyfast
 set lazyredraw    " don't redraw implement macro
 set novisualbell
+set laststatus=2
 silent !mkdir -p ~/.config/nvim/tmp/backup
 silent !mkdir -p ~/.config/nvim/tmp/undo
 set backupdir=~/.config/nvim/tmp/backup,.
@@ -66,8 +67,11 @@ if has('persistent_undo')
 	set undodir=~/.config/nvim/tmp/undo,.
 endif
 "set colorcolumn=100
-set updatetime=1000
+" set updatetime=1000
 set virtualedit=block
+" color deus
+" ctags
+set tags=./.tags;,.tags    " don't forget renew ctags, don't use exuberant ctags, ** Univeral ctags ** instead.
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
@@ -75,7 +79,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " ===
 " === Basic Mappings
 let mapleader=" "
-noremap ; :
+" noremap ; :
 
 noremap ff <Esc>
 inoremap ff <Esc>
@@ -123,7 +127,7 @@ noremap tx :r !figlet<space>
 "noremap <LEADER>s :%s//g<left><left>
 
 " Compile function
-noremap r :call CompileRunGcc()<CR>
+noremap <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
@@ -172,9 +176,113 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'ludovicchabant/vim-gutentags'
+" highlight other uses of the current word under the cursor
+Plug 'RRethy/vim-illuminate'
+" split or joint lines
+"Plug 'AndrewRadev/splitjoin.vim'    " gS, gJ
+"Plug 'skywind3000/asyncrun.vim'
+"Plug 'pechorin/any-jump.vim'
+" change to project directory
+Plug 'airblade/vim-rooter'
+" Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
+Plug 'liuchengxu/eleline.vim'
+Plug 'bling/vim-bufferline'
+Plug 'ajmwagar/vim-deus'
+
+Plug 'junegunn/fzf', { 'do':{ -> fzf#install() } }    "type <Enter> to visual i ''
+Plug 'junegunn/fzf.vim'
+
+" check and semantic errors
+Plug 'dense-analysis/ale'
+
+
+" debug
+Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+" Go
+Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
+
+" python
+" Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for' :['python', 'vim-plug']}
+
+" other
+Plug 'jiangmiao/auto-pairs'
+" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'gcmt/wildfire.vim'
+Plug 'junegunn/vim-after-object'  " da= to delete what's after =
+Plug 'godlygeek/tabular'  " Tabularize <regex> to align
+" writting
+Plug 'junegunn/goyo.vim'
+" calender
+Plug 'itchyny/calendar.vim'
+
+" Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
+
+" ===
+" === nerdtree
+" ===
+noremap <c-n> :NERDTreeToggle<CR>
+
+
+
+" ===
+" === vim-illuminate
+" ===
+let g:Illuminate_delay = 750
+let g:Illuminate_ftblacklist=['nerdtree']
+hi illuminatedWord cterm=undercurl gui=undercurl
+
+" ===
+" === vim-rooter
+" ===
+let g:rooter_change_directory_for_non_project_files = 'current'
+let g:rooter_patterns = ['Rakefile','.git/']
+
+
+" ===
+" === asynctasks.vim && asyncrun.vim
+" ===
+"     let g:asyncrun_open = 6
+"     let g:asynctasks_term_pos = 'tab'
+"     " noremap <silent><f5> :AsyncTask file-run<cr>
+"     noremap <silent><f5> :AsyncTask file-build<cr>
+"     " project root directory
+"     let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
+
+" ===
+" === vimspector
+" ===
+let g:vimspector_enable_mapping = 'HUMAN'
+
+
+" ===
+" === vim-after-object
+" ===
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+
+
+" ===
+" === tabular
+" ===
+vmap ga :Tabularize /
+
+
+" ===
+" === Goyo.vim
+" ===
+map <LEADER>gy :Goyo<CR>
+
+
+" ===
+" === vim-calendar
+" ===
+noremap \\ :Calendar -view=clock -position=here<CR>
+
 
 
 " ===
@@ -201,3 +309,13 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
+
+
+
+
+" ===
+" === Dress up my vim
+" ===
+set termguicolors
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+hi NonText ctermfg=gray guifg=gray10
