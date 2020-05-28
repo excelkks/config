@@ -1,3 +1,9 @@
+" need system application
+" 1.ctags 
+" 2.pynvim(pip install pynvim)
+" 3.
+
+
 " ===
 " === auto load plug
 " ===
@@ -7,7 +13,6 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
                 \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 
 " ====================
 " === Editor Setup ===
@@ -26,12 +31,12 @@ set autochdir
 set number
 set relativenumber
 set cursorline
-set noexpandtab
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
-" set list
+set list
 " set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set ttimeoutlen=0
@@ -63,13 +68,13 @@ silent !mkdir -p ~/.config/nvim/tmp/undo
 set backupdir=~/.config/nvim/tmp/backup,.
 set directory=~/.config/nvim/tmp/backup,.
 if has('persistent_undo')
-	set undofile
-	set undodir=~/.config/nvim/tmp/undo,.
+    set undofile
+    set undodir=~/.config/nvim/tmp/undo,.
 endif
 "set colorcolumn=100
-" set updatetime=1000
+"set updatetime=1000
 set virtualedit=block
-" color deus
+
 " ctags
 set tags=./.tags;,.tags    " don't forget renew ctags, don't use exuberant ctags, ** Univeral ctags ** instead.
 
@@ -78,6 +83,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 " ===
 " === Basic Mappings
+" ===
 let mapleader=" "
 " noremap ; :
 
@@ -124,10 +130,10 @@ noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 " Call figlet
 noremap tx :r !figlet<space>
 
-"noremap <LEADER>s :%s//g<left><left>
+noremap <LEADER>s :%s//g<left><left>
 
 " Compile function
-noremap <F5> :call CompileRunGcc()<CR>
+noremap <C-F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
@@ -170,8 +176,6 @@ func! CompileRunGcc()
 endfunc
 
 
-
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
@@ -187,21 +191,23 @@ Plug 'airblade/vim-rooter'
 " Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
 Plug 'liuchengxu/eleline.vim'
-Plug 'bling/vim-bufferline'
+" Plug 'bling/vim-bufferline'
 Plug 'ajmwagar/vim-deus'
 
-Plug 'junegunn/fzf', { 'do':{ -> fzf#install() } }    "type <Enter> to visual i ''
+Plug 'junegunn/fzf', { 'do':{ -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " check and semantic errors
 Plug 'dense-analysis/ale'
 
-
 " debug
-Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+" TODO
 " Go
 Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
 
@@ -211,15 +217,18 @@ Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
 " other
 Plug 'jiangmiao/auto-pairs'
 " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'gcmt/wildfire.vim'
+Plug 'gcmt/wildfire.vim'     "type <Enter> to visual i ''
 Plug 'junegunn/vim-after-object'  " da= to delete what's after =
 Plug 'godlygeek/tabular'  " Tabularize <regex> to align
+
 " writting
 Plug 'junegunn/goyo.vim'
 " calender
 Plug 'itchyny/calendar.vim'
 
 " Plug 'ryanoasis/vim-devicons'
+"
+Plug 'jceb/vim-orgmode' 
 
 call plug#end()
 
@@ -227,37 +236,52 @@ call plug#end()
 " === nerdtree
 " ===
 noremap <c-n> :NERDTreeToggle<CR>
-
-
-
+"     
+"     
+"     
 " ===
 " === vim-illuminate
 " ===
-let g:Illuminate_delay = 750
+let g:Illuminate_delay = 550
 let g:Illuminate_ftblacklist=['nerdtree']
+let g:Illuminate_highlightUnderCursor = 0
 hi illuminatedWord cterm=undercurl gui=undercurl
 
 " ===
 " === vim-rooter
 " ===
 let g:rooter_change_directory_for_non_project_files = 'current'
-let g:rooter_patterns = ['Rakefile','.git/']
+let g:rooter_patterns = ['Rakefile', '.root', '.svn', '.project', '.git/']
+autocmd BufEnter * :Rooter
 
 
 " ===
-" === asynctasks.vim && asyncrun.vim
+" === vim-deus
 " ===
-"     let g:asyncrun_open = 6
-"     let g:asynctasks_term_pos = 'tab'
-"     " noremap <silent><f5> :AsyncTask file-run<cr>
-"     noremap <silent><f5> :AsyncTask file-build<cr>
-"     " project root directory
-"     let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
+set t_Co=256
+
+let &t_8f = "\<Esc>[38;2%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2%lu;%lu;%lum"
+
+set background=dark    " setting dark mode
+colors deus
+let g:deus_termcolors=256
+
+
+"     " ===
+"     " === asynctasks.vim && asyncrun.vim
+"     " ===
+"     "     let g:asyncrun_open = 6
+"     "     let g:asynctasks_term_pos = 'tab'
+"     "     " noremap <silent><f5> :AsyncTask file-run<cr>
+"     "     noremap <silent><f5> :AsyncTask file-build<cr>
+"     "     " project root directory
+"     "     let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 
 " ===
 " === vimspector
 " ===
-let g:vimspector_enable_mapping = 'HUMAN'
+" let g:vimspector_enable_mappings = 'HUMAN'
 
 
 " ===
@@ -272,10 +296,10 @@ autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 vmap ga :Tabularize /
 
 
-" ===
-" === Goyo.vim
-" ===
-map <LEADER>gy :Goyo<CR>
+"     " ===
+"     " === Goyo.vim
+"     " ===
+"     map <LEADER>gy :Goyo<CR>
 
 
 " ===
