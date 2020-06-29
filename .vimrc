@@ -87,7 +87,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " ===
 " === Basic Mappings
 " ===
-" let mapleader=" "
+" let mapleader="\"
 " noremap ; :
 
 noremap ff <Esc>:w<CR>
@@ -264,6 +264,9 @@ Plug 'majutsushi/tagbar'
 
 " speeddating
 Plug 'tpope/vim-speeddating'
+
+" vim-easymotion
+Plug 'easymotion/vim-easymotion'
 
 call plug#end()
 
@@ -443,7 +446,7 @@ vmap ga :Tabularize /
 " ===
 " === vim-calendar
 " ===
-noremap \\ :Calendar -view=clock -position=here<CR>
+noremap \c :Calendar -view=clock -position=here<CR>
 
 
 
