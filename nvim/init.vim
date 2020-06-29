@@ -1,7 +1,7 @@
 " need system application
-" 1.ctags 
+" 1.ctags (universal ctags)
 " 2.pynvim(pip install pynvim)
-" 3.
+" 3.the_silver_searcher (for fzf :Ag)
 
 
 " ===
@@ -36,7 +36,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set autoindent
-set list
+" set list
 " set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set ttimeoutlen=0
@@ -47,17 +47,18 @@ set textwidth=0
 set indentexpr=
 set foldmethod=indent
 set foldlevel=99
-set foldenable     " zo for open zc for close,(zo,z0,zc,zC,za,zA,[z,]z,zj,zk
+" set foldenable     " zo for open zc for close,(zo,z0,zc,zC,za,zA,[z,]z,zj,zk
 set formatoptions-=tc
 set splitright
 set splitbelow
 "set noshowmode
+set hlsearch
 set showcmd
 set wildmenu
 set ignorecase
 set smartcase
 set shortmess+=c
-set inccommand=split
+" set inccommand=split
 set completeopt=longest,noinsert,menuone,noselect,preview
 set ttyfast
 set lazyredraw    " don't redraw implement macro
@@ -75,6 +76,8 @@ endif
 "set updatetime=1000
 set virtualedit=block
 
+set mouse=a
+
 " ctags
 set tags=./.tags;,.tags    " don't forget renew ctags, don't use exuberant ctags, ** Univeral ctags ** instead.
 
@@ -84,19 +87,19 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " ===
 " === Basic Mappings
 " ===
-let mapleader=" "
+" let mapleader=" "
 " noremap ; :
 
-noremap ff <Esc>
-inoremap ff <Esc>
+noremap ff <Esc>:w<CR>
+inoremap ff <Esc>:w<CR>
 
 " rc
-noremap <LEADER>rc :e ~/.config/nvim/init.vim<CR>
+noremap <space>rc :e ~/.config/nvimrc<CR>
 " Indentation
 nnoremap < <<
 nnoremap > >>
 " nohl
-noremap <LEADER><CR> :nohlsearch<CR>
+noremap <space><CR> :nohlsearch<CR>
 "split
 noremap sl :set splitright<CR>:vsp<space>
 noremap sh :set nosplitright<CR>:vsp<space>
@@ -106,8 +109,8 @@ noremap su :set nosplitbelow<CR>:split<space>
 " resize
 noremap <up> :res +5<CR>
 noremap <down> :res -5<CR>
-noremap <left> :vertical resize +5<CR>
-noremap <right> :vertical resize -5<CR>
+noremap <left> :vertical resize -5<CR>
+noremap <right> :vertical resize +5<CR>
 
 " command mode cursor movement
 cnoremap <C-a> <Home>
@@ -119,18 +122,23 @@ cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-w> <S-Right>
 
-noremap <LEADER>h <C-w>h
-noremap <LEADER>l <C-w>l
-noremap <LEADER>j <C-w>j
-noremap <LEADER>k <C-w>k
+" window focus
+noremap <space>h <C-w>h
+noremap <space>l <C-w>l
+noremap <space>j <C-w>j
+noremap <space>k <C-w>k
+
+" tab focus
+noremap J :tabNext<CR>
+noremap K :tabprevious<CR>
 
 " <++> placeholder
-noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+noremap <space><space> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
 " Call figlet
 noremap tx :r !figlet<space>
 
-noremap <LEADER>s :%s//g<left><left>
+noremap <space>s :%s//g<left><left>
 
 " Compile function
 noremap <C-F5> :call CompileRunGcc()<CR>
@@ -176,10 +184,10 @@ func! CompileRunGcc()
 endfunc
 
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'ludovicchabant/vim-gutentags'
+Plug 'ludovicchabant/vim-gutentags'  " generate ctags auto 
 " highlight other uses of the current word under the cursor
 Plug 'RRethy/vim-illuminate'
 " split or joint lines
@@ -191,17 +199,27 @@ Plug 'airblade/vim-rooter'
 " Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
 Plug 'liuchengxu/eleline.vim'
+
+" snippets
+Plug 'SirVer/ultisnips'
+Plug 'excelkks/vim-snippets'
+
 " Plug 'bling/vim-bufferline'
 Plug 'ajmwagar/vim-deus'
 
+" don't get install the_silver_searcher to use :Ag to search string in text
 Plug 'junegunn/fzf', { 'do':{ -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" TODO
 " check and semantic errors
 Plug 'dense-analysis/ale'
 
-" debug
-Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
+" markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+" debug TODO
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -227,8 +245,23 @@ Plug 'junegunn/goyo.vim'
 Plug 'itchyny/calendar.vim'
 
 " Plug 'ryanoasis/vim-devicons'
-"
+
 Plug 'jceb/vim-orgmode' 
+
+" Plug 'ianva/vim-youdao-translater'
+
+" latex
+" Plug 'lervag/vimtex'
+Plug 'xuhdev/vim-latex-live-preview',   {'for': 'tex'}
+
+" wiki
+Plug 'vimwiki/vimwiki'
+
+" tarbar
+Plug 'majutsushi/tagbar'
+
+" speeddating
+Plug 'tpope/vim-speeddating'
 
 call plug#end()
 
@@ -245,7 +278,7 @@ noremap <c-n> :NERDTreeToggle<CR>
 let g:Illuminate_delay = 550
 let g:Illuminate_ftblacklist=['nerdtree']
 let g:Illuminate_highlightUnderCursor = 0
-hi illuminatedWord cterm=undercurl gui=undercurl
+"hi illuminatedWord cterm=undercurl gui=undercurl
 
 " ===
 " === vim-rooter
@@ -260,11 +293,12 @@ autocmd BufEnter * :Rooter
 " ===
 set t_Co=256
 
-let &t_8f = "\<Esc>[38;2%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2%lu;%lu;%lum"
+" let &t_8f = "\<Esc>[38;2%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2%lu;%lu;%lum"
 
 set background=dark    " setting dark mode
 colors deus
+"colorscheme desert
 let g:deus_termcolors=256
 
 
@@ -279,22 +313,111 @@ let g:deus_termcolors=256
 "     "     let g:asyncrun_rootmarks = ['.git', '.svn', '.root', '.project', '.hg']
 
 " ===
-" === vimspector
+" === markdown-preview.nvim
 " ===
-let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
-noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-sign define vimspectorBP text=☛ texthl=Normal
-sign define vimspectorBPDisabled text=☞ texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
+
+" set to 1, nvim will open the preview window after entering the markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
+
+" set to 1, the nvim will auto close current preview window when change
+" from markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 1
+
+" set to 1, the vim will refresh markdown when save the buffer or
+" leave from insert mode, default 0 is auto refresh markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+
+" set to 1, the MarkdownPreview command can be use for all files,
+" by default it can be use in markdown file
+" default: 0
+let g:mkdp_command_for_global = 0
+
+" set to 1, preview server available to others in your network
+" by default, the server listens on localhost (127.0.0.1)
+" default: 0
+let g:mkdp_open_to_the_world = 1
+
+" use custom IP to open preview page
+" useful when you work in remote vim and preview on local browser
+" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
+" default empty
+let g:mkdp_open_ip = ''
+
+" specify browser to open preview page
+" default: ''
+let g:mkdp_browser = ''
+
+" set to 1, echo preview page url in command line when open preview page
+" default is 0
+let g:mkdp_echo_preview_url = 1
+
+" a custom vim function name to open preview page
+" this function will receive url as param
+" default is empty
+let g:mkdp_browserfunc = ''
+
+" options for markdown render
+" mkit: markdown-it options for render
+" katex: katex options for math
+" uml: markdown-it-plantuml options
+" maid: mermaid options
+" disable_sync_scroll: if disable sync scroll, default 0
+" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
+"   middle: mean the cursor position alway show at the middle of the preview page
+"   top: mean the vim top viewport alway show at the top of the preview page
+"   relative: mean the cursor position alway show at the relative positon of the preview page
+" hide_yaml_meta: if hide yaml metadata, default is 1
+" sequence_diagrams: js-sequence-diagrams options
+" content_editable: if enable content editable for preview page, default: v:false
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false
+    \ }
+
+" use a custom markdown style must be absolute path
+" like '/Users/username/markdown.css' or expand('~/markdown.css')
+" let g:mkdp_markdown_css = '~/markdown.css'
+
+" use a custom highlight style must absolute path
+" like '/Users/username/highlight.css' or expand('~/highlight.css')
+let g:mkdp_highlight_css = ''
+
+" use a custom port to start server or random for empty
+let g:mkdp_port = '8222'
+
+" preview page title
+" ${name} will be replace with the file name
+let g:mkdp_page_title = '${name}'
+
+"    " ===
+"    " === vimspector
+"    " ===
+"    let g:vimspector_enable_mappings = 'HUMAN'
+"    function! s:read_template_into_buffer(template)
+"    	" has to be a function to avoid the extra space fzf#run insers otherwise
+"    	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
+"    endfunction
+"    command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+"    			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
+"    			\   'down': 20,
+"    			\   'sink': function('<sid>read_template_into_buffer')
+"    			\ })
+"    noremap <space>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+"    sign define vimspectorBP text=☛ texthl=Normal
+"    sign define vimspectorBPDisabled text=☞ texthl=Normal
+"    sign define vimspectorPC text=🔶 texthl=SpellBad
 
 
 " ===
@@ -312,7 +435,7 @@ vmap ga :Tabularize /
 "     " ===
 "     " === Goyo.vim
 "     " ===
-"     map <LEADER>gy :Goyo<CR>
+"     map <space>gy :Goyo<CR>
 
 
 " ===
@@ -347,6 +470,26 @@ if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
 
+" ===
+" === vim-latex-live-preview
+" ===
+autocmd filetype tex setl updatetime=1000
+let g:livepreview_engine = 'xelatex'
+let g:livepreview_previewer='open -a Skim'
+
+
+" ===
+" === vimwiki
+" ===
+let g:vimwiki_list = [{'path': '~/vimwiki/',
+            \ 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_diary_months = {
+      \ 1: '一月', 2: '二月', 3: '三月',
+      \ 4: '四月', 5: '五月', 6: '六月',
+      \ 7: '七月', 8: '八月', 9: '九月',
+      \ 10: '十月', 11: '十一月', 12: '十二月'
+      \ }
 
 
 
