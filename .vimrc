@@ -225,6 +225,8 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+Plug 'tpope/vim-surround'    " ys, cs, ds
+
 " TODO
 " Go
 Plug 'fatih/vim-go', { 'for': ['go', 'vim-plug'], 'tag': '*' }
@@ -423,7 +425,7 @@ let g:mkdp_page_title = '${name}'
 " ===
 " === vim-after-object
 " ===
-autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
+autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ', '/', '\')
 
 
 " ===
