@@ -508,7 +508,7 @@ let g:tex_conceal='abdmg'
 let g:vimspector_enable_mappings = 'HUMAN'
 
 function! s:generate_vimspector_conf()
-  if exists('.vimspector.json')
+  if empty(glob( '.vimspector.json' ))
     if &filetype == 'c' || 'cpp' 
       !cp ~/.config/nvim/vimspector_conf/c.json ./.vimspector.json
     elseif &filetype == 'python'
