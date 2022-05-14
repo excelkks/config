@@ -65,7 +65,7 @@ set shortmess+=mrwc
 set formatoptions-=tc
 set lazyredraw
 set novisualbell
-set laststatus=2
+set laststatus=3
 exe 'silent !mkdir -p '.g:configPath.'/tmp/backup'
 exe 'silent !mkdir -p '.g:configPath.'/tmp/undo'
 exe 'set backupdir='.g:configPath.'/tmp/backup,.'
@@ -149,9 +149,10 @@ Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'airblade/vim-rooter'
  
 " git
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 Plug 'cohama/agit.vim'
 Plug 'kdheepak/lazygit.nvim' "TODO
+Plug 'tpope/vim-fugitive'
 
 Plug 'kevinoid/vim-jsonc'
 
@@ -234,6 +235,11 @@ let g:scrollstatus_size = 15
 " ===
 let g:rooter_patterns = ['__vim_project_root', '.git/', '.vscode/', '.project/']
 let g:rooter_silent_chdir = 1
+
+" ===
+" ===  airblade/vim-gitgutter
+" ===
+let g:gitgutter_map_keys = 0
 
 " ===
 " === cohama/agit.vim
@@ -397,6 +403,7 @@ let g:lsp_cxx_hl_use_text_props = 1
 " highlight LspCxxHlSymField ctermfg=GreenBlue guifg=GreenBlue
 hi default link LspCxxHlSymFunction cxxFunction
 hi default link LspCxxHlSymFunctionParameter cxxParameter
+hi default link LspCxxHlSymParameter cxxParameter
 hi default link LspCxxHlSymFileVariableStatic cxxFileVariableStatic
 hi default link LspCxxHlSymStruct cxxStruct
 hi default link LspCxxHlSymStructField cxxStructField
@@ -500,8 +507,9 @@ let g:Lf_DevIconsFont = "DroidSansMono Nerd Font Mono"
 " ===
 " === lervag/vimtex
 " ===
-let g:vimtex_latexmk_options='-pdf -pdflatex="xelatex -synctex=1 \%S \%O" -verbose -file-line-error -interaction=nonstopmode'
-let g:tex_flavor='xelatex'
+" let g:vimtex_latexmk_options='-pdf -pdflatex="xelatex -synctex=1 \%S \%O" -verbose -file-line-error -interaction=nonstopmode'
+let g:vimtex_compiler_method = 'latexmk'
+let g:vimtex_compiler_latexmk_engines = {'_':'-xelatex'}
 let g:vimtex_view_method='skim'
 let g:vimtex_quickfix_mode=0
 set conceallevel=1
@@ -585,3 +593,4 @@ function! s:generate_vimspector_conf()
 endfunction
 
 command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()
+"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936

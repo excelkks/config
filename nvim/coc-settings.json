@@ -59,7 +59,7 @@
            "directory": "/tmp/ccls"
          },
          "clang":{
-           "resourceDir": "/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5"
+           "resourceDir": "/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/"
          },
          "completion": {
            "detailedLable": true,
