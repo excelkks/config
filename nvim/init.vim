@@ -126,6 +126,12 @@ noremap <down> :res -5<CR>
 noremap <left> :vertical resize -5<CR>
 noremap <right> :vertical resize +5<CR>
 
+" emacs keymapping in command mode
+cnoremap <C-b> <left>
+cnoremap <C-f> <right>
+cnoremap <C-a> <home>
+cnoremap <C-e> <end>
+
 noremap <leader>s :%s//g<left><left>
 
 " terminal
@@ -137,7 +143,6 @@ Plug 'theniceboy/nvim-deus'
 " Plug 'tomasiser/vim-code-dark'
 Plug 'excelkks/vscode.nvim'
 Plug 'excelkks/vsdark.nvim'
-Plug 'ryanoasis/vim-devicons'
 
 " Plug 'theniceboy/eleline.vim'
 Plug 'liuchengxu/eleline.vim'
@@ -180,7 +185,11 @@ Plug 'excelkks/vim-snippets'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 Plug 'psliwka/vim-smoothie'
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " file finder
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
@@ -234,6 +243,7 @@ let g:scrollstatus_size = 15
 " === vim-rooter
 " ===
 let g:rooter_patterns = ['__vim_project_root', '.git/', '.vscode/', '.project/']
+let g:rooter_change_directory_for_non_project_files = 'current'
 let g:rooter_silent_chdir = 1
 
 " ===
@@ -415,77 +425,98 @@ hi default link LspCxxHlSymVariable cxxVariable
 hi default link LspCxxHlSymMacro cxxMacro
 hi default link LspCxxHlSymEnumMember cxxEnumMember
 
-
-" ===
-" === Shougo/defx.nvim
-" ===
-" nnoremap <silent> <leader>e :<C-U>:Defx -winwidth=30 -resume -toggle 
-"   \ -buffer_name=explorer -split=vertical -direction=topleft 
-"   \ -vertical_preview<CR>
-call defx#custom#option('_', {
-            \ 'winwidth': 30,
-            \ 'split': 'vertical',
-            \ 'direction': "topleft",
-            \ 'show_ignored_files': 0,
-            \ 'buffer_name': '',
-            \ 'toggle': 1,
-            \ 'resume': 1
-            \ })
-call defx#custom#column('mark', {
-      \ 'readonly_icon': '',
-      \ 'selected_icon': '',
-      \ })
-call defx#custom#column('icon', {
-      \ 'directory_icon': '▶',
-      \ 'opened_icon': '▼',
-      \ 'root_icon': ' ',
-      \ })
-call defx#custom#column('filename', {
-      \ 'max_width': -90,
-      \ })
-
-nnoremap <silent><leader>e :Defx<CR>
-" nnoremap <silent><buffer><expr> <CR>
-"   \ defx#is_directory() ?
-"   \ defx#do_action('open_tree', 'recursive:10') :
-"   \ defx#do_action('preview')
-function! s:defx_init()
-    setl nonumber
-    setl norelativenumber
-    setl listchars=
-    setl nofoldenable
-    setl foldmethod=manual
-    nnoremap <silent><buffer><expr> '
-      \ defx#do_action('toggle_select') . 'j'
-    nnoremap <silent><buffer><expr> V
-      \ defx#do_action('toggle_select_all')
-    nnoremap <silent><buffer><expr> gx
-      \ defx#do_action('execute_system')
-    nnoremap <silent><buffer><expr> <2-LeftMouse>
-      \ defx#is_directory() ? 
-      \     (
-      \     defx#is_opened_tree() ?
-      \     defx#do_action('close_tree') :
-      \     defx#do_action('open_tree')
-      \     )
-      \ : defx#do_action('drop')
-    nnoremap <silent><buffer><expr> o
-      \ defx#is_directory() ? 
-      \     (
-      \     defx#is_opened_tree() ?
-      \     defx#do_action('close_tree') :
-      \     defx#do_action('open_tree')
-      \     )
-      \ : defx#do_action('drop')
-    nnoremap <silent><buffer><expr> <CR>
-      \ defx#is_directory() ?
-      \ defx#do_action('open_directory') : defx#do_action('drop')
-    nmap <silent><buffer><expr> P
-      \ defx#is_directory() ?
-      \ defx#do_action('cd',['..']) : defx#do_action('drop')
-
+autocmd FileType *c,*cpp,*.h call <SID>c_symbol_syntax()
+function! s:c_symbol_syntax()
+  syntax match commonOperator "\(\.\|{\|}\|\[\|\]\|(\|)\|<\|>\||\|=\|&\|+\|-\|*\|\/[^\/,^*]\)"
+  hi link commonOperator cxxParameter
 endfunction
-autocmd FileType defx call s:defx_init()
+
+
+
+" " ===
+" " === Shougo/defx.nvim
+" " ===
+" " nnoremap <silent> <leader>e :<C-U>:Defx -winwidth=30 -resume -toggle 
+" "   \ -buffer_name=explorer -split=vertical -direction=topleft 
+" "   \ -vertical_preview<CR>
+" call defx#custom#option('_', {
+"             \ 'winwidth': 30,
+"             \ 'split': 'vertical',
+"             \ 'direction': "topleft",
+"             \ 'show_ignored_files': 0,
+"             \ 'buffer_name': '',
+"             \ 'toggle': 1,
+"             \ 'resume': 1
+"             \ })
+" call defx#custom#column('mark', {
+"       \ 'readonly_icon': '',
+"       \ 'selected_icon': '',
+"       \ })
+" call defx#custom#column('icon', {
+"       \ 'directory_icon': '▶',
+"       \ 'opened_icon': '▼',
+"       \ 'root_icon': ' ',
+"       \ })
+" call defx#custom#column('filename', {
+"       \ 'max_width': -90,
+"       \ })
+"
+" nnoremap <silent><leader>e :Defx<CR>
+" " nnoremap <silent><buffer><expr> <CR>
+" "   \ defx#is_directory() ?
+" "   \ defx#do_action('open_tree', 'recursive:10') :
+" "   \ defx#do_action('preview')
+" function! s:defx_init()
+"     setl nonumber
+"     setl norelativenumber
+"     setl listchars=
+"     setl nofoldenable
+"     setl foldmethod=manual
+"     nnoremap <silent><buffer><expr> '
+"       \ defx#do_action('toggle_select') . 'j'
+"     nnoremap <silent><buffer><expr> V
+"       \ defx#do_action('toggle_select_all')
+"     nnoremap <silent><buffer><expr> gx
+"       \ defx#do_action('execute_system')
+"     nnoremap <silent><buffer><expr> <2-LeftMouse>
+"       \ defx#is_directory() ? 
+"       \     (
+"       \     defx#is_opened_tree() ?
+"       \     defx#do_action('close_tree') :
+"       \     defx#do_action('open_tree')
+"       \     )
+"       \ : defx#do_action('drop')
+"     nnoremap <silent><buffer><expr> o
+"       \ defx#is_directory() ? 
+"       \     (
+"       \     defx#is_opened_tree() ?
+"       \     defx#do_action('close_tree') :
+"       \     defx#do_action('open_tree')
+"       \     )
+"       \ : defx#do_action('drop')
+"     nnoremap <silent><buffer><expr> <CR>
+"       \ defx#is_directory() ?
+"       \ defx#do_action('open_directory') : defx#do_action('drop')
+"     nmap <silent><buffer><expr> P
+"       \ defx#is_directory() ?
+"       \ defx#do_action('cd',['..']) : defx#do_action('drop')
+"
+" endfunction
+" autocmd FileType defx call s:defx_init()
+
+
+" ===
+" === preservim/nerdtree
+" ===
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+" autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+"     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" ===
+" === Xuyuanp/nerdtree-git-plugin
+" ===
+let g:NERDTreeGitStatusConcealBrackets=0
 
 
 " ===

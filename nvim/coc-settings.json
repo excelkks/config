@@ -35,7 +35,7 @@
     "coc.source.buffer.priority": 8,
     "coc.source.file.priority": 6,
     "coc.preferences.formatOnType": true,
-    "coc.preferences.colorSupport": true,
+    // "coc.preferences.colorSupport": true,
 
     "python.pythonPath": "python3",
     // pip3 install yapf
