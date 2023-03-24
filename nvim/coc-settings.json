@@ -1,31 +1,32 @@
 {
     "suggest.labelMaxLength": 60,
     "suggest.completionItemKindLabels": {
-  	"class": "\uf0e8",
-  	"color": "\ue22b",
-  	"constant": "\uf8fe",
-  	"default": "\uf29c",
-  	"enum": "\uf435",
-  	"enumMember": "\uf02b",
-  	"event": "\ufacd",
-  	"field": "\uf93d",
-  	"file": "\uf723",
-  	"folder": "\uf115",
-  	"function": "\u0192",
-  	"interface": "\uf417",
-  	"keyword": "\uf1de",
-  	"method": "\uf6a6",
-  	"module": "\uf40d",
-  	"operator": "\uf915",
-  	"property": "\ue624",
-  	"reference": "\ufa46",
-  	"snippet": "\ue60b",
-  	"struct": "\ufb44",
-  	"text": "\ue612",
-  	"typeParameter": "\uf728",
-  	"unit": "\uf475",
-  	"value": "\uf89f",
-  	"variable": "\ue71b"
+  	    "text": "\uea93",
+  	    "method": "\uea8c",
+  	    "function": "\uea8c",
+    	  "constructor": "\uea8c",
+  	    "field": "\ueb5f",
+  	    "variable": "\uea88",
+  	    "class": "\ueb5b",
+  	    "interface": "\ueb61",
+  	    "module": "\uea8b",
+  	    "property": "\ueb65",
+  	    "unit": "\uf475", // TODO
+  	    "value": "\uea95",
+  	    "enum": "\uea95",
+  	    "keyword": "\ueb62",
+  	    "snippet": "\ueb66",
+  	    "color": "\ueb5c",
+  	    "file": "\ueb60",
+  	    "reference": "\ueb36",
+  	    "folder": "\uea83",
+  	    "enumMember": "\ueb5e",
+        "constant": "\ueb5d",
+  	    "struct": "\uea91",
+  	    "event": "\uea86",
+  	    "operator": "\ueb64",
+  	    "typeParameter": "\uea92",
+        "default": "\uf29c", // TODO
 	},
   "snippets.snipmate.enable": false,
   "snippets.loadFromExtensions": false,
@@ -45,6 +46,7 @@
         "--style",
         "google"
     ],
+    "pyright.inlayHints.variableTypes": false,
     "cmake.formatter": "cmake-format",
 
     "languageserver": {
@@ -58,9 +60,10 @@
          "cache": {
            "directory": "/tmp/ccls"
          },
-         "clang":{
-           "resourceDir": "/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/"
-         },
+         // [ref](https://github.com/MaskRay/ccls/wiki/Install#clang-resource-directory)
+         // "clang":{
+         //   "resourceDir": "/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/"
+         // },
          "completion": {
            "detailedLable": true,
            "placeholder": true
@@ -89,6 +92,7 @@
 // // "--resource-dir=<header path>"
 // ]
 
-    }
+    },
+    "snippets.ultisnips.pythonPrompt": false
 }
 
