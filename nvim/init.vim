@@ -210,6 +210,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 " debug
 Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-rust --enable-c --enable-python'}
 
+" python
+Plug 'jpalardy/vim-slime'
+
 call plug#end()
 
 
@@ -471,6 +474,7 @@ hi default link LspCxxHlSymVariableExtern cxxFileVariableStatic
 hi default link LspCxxHlSymVariable cxxVariable
 hi default link LspCxxHlSymMacro cxxMacro
 hi default link LspCxxHlSymEnumMember cxxEnumMember
+hi default link LspCxxHlSkippedRegion cxxSkipped
 
 autocmd FileType *c,*cpp,*.h call <SID>c_symbol_syntax()
 function! s:c_symbol_syntax()
@@ -671,4 +675,9 @@ function! s:generate_vimspector_conf()
 endfunction
 
 command! -nargs=0 Gvimspector :call s:generate_vimspector_conf()
-"set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+
+let g:slime_target = "neovim"
+"let g:slime_target = "tmux"
+"let g:slime_default_config = {"socket_name": "default", "target_pane": "{right_of}"}
+"let g:slime_python_ipython = 1
